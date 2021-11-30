@@ -5,7 +5,7 @@
 
 ## Схема БД
 
-![image](https://user-images.githubusercontent.com/19695435/144130054-a2d02211-17fc-4432-bf62-239189f41dde.png)
+![image](https://user-images.githubusercontent.com/19695435/144130192-584ee63c-9b45-4869-bdb0-9a021e3bf9c5.png)
 
 
 ### Описание таблиц
