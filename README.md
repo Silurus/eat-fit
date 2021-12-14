@@ -21,7 +21,7 @@
 На основе этих данных курьерам выставляется средний рейтинг и дорабатывается рецептура блюд.
 
 
-![image](https://user-images.githubusercontent.com/19695435/146059395-a83b4128-b939-483b-b10e-a21891e3329f.png)
+![image](https://user-images.githubusercontent.com/19695435/146063239-a5b7d894-b27c-42bd-8abd-8ab9be3d4ba7.png)
 
 
 ### Описание таблиц
