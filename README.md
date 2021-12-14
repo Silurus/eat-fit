@@ -47,7 +47,8 @@
 
 ### Автоматические проверки (Check Constraints)
 
-- **CK_Basket_TotalDiscount_Between_0_And_1** - проверка для таблицы Basket, поле TotalDiscount должно принадлежать диапазону \[0; 1\] (процент скидки)
+- **CK_Basket_TotalDiscount_Between_0_And_1** - проверка для таблицы Basket, поле TotalDiscount должно принадлежать диапазону
+\[0; 1\] (процент скидки)
 - **CK_Basket_TotalPrice_NonNegative** - проверка для таблицы Basket, поле TotalPrice должно быть неотрицательным числом (>= 0)
 - **CK_BasketList_PositionPrice_NonNegative** - проверка для таблицы BasketList, поле PositionPrice должно быть неотрицательным числом (>= 0)
 - **CK_BasketList_Quantity_NonNegative** - проверка для таблицы BasketList, поле Quantity должно быть неотрицательным числом (>= 0)
@@ -58,4 +59,5 @@
 - **CK_Meal_Fats_NonNegative** - проверка для таблицы Meal, поле Fats должно быть неотрицательным числом (>= 0)
 - **CK_Meal_Price_NonNegative** - проверка для таблицы Meal, поле Price должно быть неотрицательным числом (>= 0)
 - **CK_Meal_Protein_NonNegative** - проверка для таблицы Meal, поле Protein должно быть неотрицательным числом (>= 0)
-- **CK_Promocode_Discount_Between_0_And_1** - проверка для таблицы Promocode, поле Discount должно принадлежать диапазону \[0; 1\] (процент скидки)
+- **CK_Promocode_Discount_Between_0_And_1** - проверка для таблицы Promocode, поле Discount должно принадлежать диапазону
+\[0; 1\] (процент скидки)
