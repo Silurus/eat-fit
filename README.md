@@ -21,7 +21,7 @@
 На основе этих данных курьерам выставляется средний рейтинг и дорабатывается рецептура блюд.
 
 
-![image](https://user-images.githubusercontent.com/19695435/146048039-56891e07-b4d3-4e21-ba29-f747e7baac58.png)
+![image](https://user-images.githubusercontent.com/19695435/146059395-a83b4128-b939-483b-b10e-a21891e3329f.png)
 
 
 ### Описание таблиц
@@ -47,11 +47,15 @@
 
 ### Автоматические проверки (Check Constraints)
 
-- **CK_Order_TotalPrice_NonNegative** - проверка для таблицы Order, поле TotalPrice должно быть неотрицательным числом (>= 0)
-- **CK_OrderList_Quantity_GreaterThan_0** - проверка для таблицы OrderList, поле Quantity должно быть больше 0
-- **CK_OrderFeedback_OrderRating_NonNegative** - проверка для таблицы OrderFeedback, поле OrderRating должно быть неотрицательным числом (>= 0)
-- **CK_OrderFeedback_CourierRating_NonNegative** - проверка для таблицы OrderFeedback, поле CourierRating должно быть неотрицательным числом (>= 0)
-- **CK_Meal_Fats_NonNegative** - проверка для таблицы Meal, поле Fats должно быть неотрицательным числом (>= 0)
-- **CK_Meal_Carbs_NonNegative** - проверка для таблицы Meal, поле Carbs должно быть неотрицательным числом (>= 0)
-- **CK_Meal_Protein_NonNegative** - проверка для таблицы Meal, поле Protein должно быть неотрицательным числом (>= 0)
+- **CK_Basket_TotalDiscount_Between_0_And_1** - проверка для таблицы Basket, поле TotalDiscount должно принадлежать диапазону \[0; 1\] (процент скидки)
+- **CK_Basket_TotalPrice_NonNegative** - проверка для таблицы Basket, поле TotalPrice должно быть неотрицательным числом (>= 0)
+- **CK_BasketList_PositionPrice_NonNegative** - проверка для таблицы BasketList, поле PositionPrice должно быть неотрицательным числом (>= 0)
+- **CK_BasketList_Quantity_NonNegative** - проверка для таблицы BasketList, поле Quantity должно быть неотрицательным числом (>= 0)
+- **CK_Feedback_CourierRating_NonNegative** - проверка для таблицы Feedback, поле CourierRating должно быть неотрицательным числом (>= 0)
+- **CK_Feedback_OrderRating_NonNegative** - проверка для таблицы Feedback, поле OrderRating должно быть неотрицательным числом (>= 0)
 - **CK_Meal_Calories_NonNegative** - проверка для таблицы Meal, поле Calories должно быть неотрицательным числом (>= 0)
+- **CK_Meal_Carbs_NonNegative** - проверка для таблицы Meal, поле Carbs должно быть неотрицательным числом (>= 0)
+- **CK_Meal_Fats_NonNegative** - проверка для таблицы Meal, поле Fats должно быть неотрицательным числом (>= 0)
+- **CK_Meal_Price_NonNegative** - проверка для таблицы Meal, поле Price должно быть неотрицательным числом (>= 0)
+- **CK_Meal_Protein_NonNegative** - проверка для таблицы Meal, поле Protein должно быть неотрицательным числом (>= 0)
+- **CK_Promocode_Discount_Between_0_And_1** - проверка для таблицы Promocode, поле Discount должно принадлежать диапазону \[0; 1\] (процент скидки)
