@@ -85,13 +85,14 @@
 
 #### Установка docker-образа PostgreSQL
 
-Для установки PostgreSQL необходимо скачать docker-образ с помощью команды `docker pull postgres`.
+Для установки PostgreSQL необходимо скачать docker-образ с помощью команды `docker pull postgres`.  
 После того, как образ скачан, запускаем контейнер для PostgreSQL:
 ```
 docker run --name postgres14 –e POSTGRES_PASSWORD="****" –d –p 5432:5432 postgres
 ```
 
 Проверить запущенные контейнеры можно с помощью команды `docker ps`:
+
 ![image](https://user-images.githubusercontent.com/19695435/147001369-1d0de65f-edbf-4b57-a4d5-737ff44df935.png)
 
 #### Подключение к БД через командную строку
@@ -104,6 +105,7 @@ psql -U postgres -W postgres
 ![image](https://user-images.githubusercontent.com/19695435/147001678-c022eb0b-ca76-467e-9f6b-6c08f703d276.png)
 
 Посмотреть список БД можно с помощью команды `\l`:
+
 ![image](https://user-images.githubusercontent.com/19695435/147003409-39f004c7-9858-4c40-a1a6-5cdc83680e21.png)
 
 Создадим новую БД с именем **otus** и затем подключимся к ней:
@@ -123,10 +125,12 @@ docker run --name pgadmin4 -p 5555:80 -e PGADMIN_DEFAULT_EMAIL="user@email.com" 
 ```
 
 После того как контейнер запустился, в браузере переходим по адресу http://localhost:5555 и вводим указанные в предыдущей команде логин/пароль:
+
 ![image](https://user-images.githubusercontent.com/19695435/147004580-cb947b2e-4865-43ae-b39e-7f1aef0a395e.png)
 
 Далее жмем правой кнопкой на **Servers -> Create -> Server...**, указываем имя (например, localhost).
 Переходим на вкладку **Connection**, указываем адрес хоста (в моем случае это **host.docker.internal**, т.к. Postgres развернут внутри docker-контейнера) и порт 5432 (по-умолчанию).
+
 ![pgadmin connection](https://user-images.githubusercontent.com/19695435/147005143-b72f3d91-0e32-4384-97aa-4ee67b4c7df8.png)
 
 Жмем **Save**.
@@ -134,6 +138,7 @@ docker run --name pgadmin4 -p 5555:80 -e PGADMIN_DEFAULT_EMAIL="user@email.com" 
 Если выбрать сервер **localhost** и перейти на вкладку **Dashboard**, то внизу мы увидим список подключений, в котором есть три подключения:
 - два подключения к базам **otus** и **postgres** из клиента pgAdmin
 - одно подключение к базе **otus** из командной строки psql
+
 ![image](https://user-images.githubusercontent.com/19695435/147005523-b3badd2e-e37b-4001-9377-be09fbe3edf9.png)
 
 
