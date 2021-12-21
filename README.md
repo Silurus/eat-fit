@@ -128,7 +128,7 @@ docker run --name pgadmin4 -p 5555:80 -e PGADMIN_DEFAULT_EMAIL="user@email.com" 
 
 ![image](https://user-images.githubusercontent.com/19695435/147004580-cb947b2e-4865-43ae-b39e-7f1aef0a395e.png)
 
-Далее жмем правой кнопкой на **Servers -> Create -> Server...**, указываем имя (например, localhost).
+Далее жмем правой кнопкой на **Servers -> Create -> Server...**, указываем имя (например, localhost).  
 Переходим на вкладку **Connection**, указываем адрес хоста (в моем случае это **host.docker.internal**, т.к. Postgres развернут внутри docker-контейнера) и порт 5432 (по-умолчанию).
 
 ![pgadmin connection](https://user-images.githubusercontent.com/19695435/147005143-b72f3d91-0e32-4384-97aa-4ee67b4c7df8.png)
@@ -140,6 +140,3 @@ docker run --name pgadmin4 -p 5555:80 -e PGADMIN_DEFAULT_EMAIL="user@email.com" 
 - одно подключение к базе **otus** из командной строки psql
 
 ![image](https://user-images.githubusercontent.com/19695435/147005523-b3badd2e-e37b-4001-9377-be09fbe3edf9.png)
-
-
-Далее правой кнопкой н
