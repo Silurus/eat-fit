@@ -86,7 +86,7 @@
 #### Установка docker-образа PostgreSQL
 
 Для установки PostgreSQL необходимо скачать docker-образ с помощью команды `docker pull postgres`.  
-После того, как образ скачан, запускаем контейнер для PostgreSQL:
+После того, как образ скачался, запускаем контейнер для PostgreSQL:
 ```
 docker run --name postgres14 –e POSTGRES_PASSWORD="****" –d –p 5432:5432 postgres
 ```
