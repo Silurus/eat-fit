@@ -100,7 +100,8 @@ docker run --name postgres14 –e POSTGRES_PASSWORD="****" –d –p 5432:5432 p
 Подключимся к БД по-умолчанию **postgres** через командную строку:
 ```
 docker exec -it postgres14 bash
-psql -U postgres -W postgres
+psql -U postgres -W
+> password: <вводим_пароль>
 ```
 ![image](https://user-images.githubusercontent.com/19695435/147001678-c022eb0b-ca76-467e-9f6b-6c08f703d276.png)
 
