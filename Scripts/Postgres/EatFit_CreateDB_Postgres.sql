@@ -7,6 +7,11 @@
 -- Для выполнения следующих команд подключаемся к БД postgres:
 -- # psql -U postgres -W postgres
 
+-- SELECT pg_terminate_backend(pg_stat_activity.pid)
+-- FROM pg_stat_activity
+-- WHERE pg_stat_activity.datname = 'eatfit' -- ← change this to your DB
+--   AND pid <> pg_backend_pid();
+
 -- DROP DATABASE IF EXISTS eatfit;
 CREATE DATABASE eatfit ENCODING = 'UTF8';
 
