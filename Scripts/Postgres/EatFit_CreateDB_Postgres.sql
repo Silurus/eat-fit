@@ -272,12 +272,6 @@ ALTER TABLE ef.feedback
 			orderrating >= 0
 	);
 
-ALTER TABLE ef.feedback
-	ADD CONSTRAINT ck_feedback_courierrating_nonnegative
-	CHECK (
-			courierrating >= 0
-	);
-
 ALTER TABLE ef.meal
 	ADD CONSTRAINT ck_meal_calories_nonnegative
 	CHECK (
