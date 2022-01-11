@@ -7,13 +7,18 @@
 -- Для выполнения следующих команд подключаемся к БД postgres:
 -- # psql -U postgres -W postgres
 
+-- DROP DATABASE IF EXISTS eatfit;
 CREATE DATABASE eatfit ENCODING = 'UTF8';
 
+-- DROP ROLE IF EXISTS ef_analytics, ef_user, ef_admin, ef_gr;
 CREATE ROLE ef_gr; -- группа ролей, относящихся к БД EatFit
 CREATE USER ef_admin WITH PASSWORD 'admin'; -- укажите свой пароль для ef_admin
 CREATE USER ef_user WITH PASSWORD 'user'; -- укажите свой пароль для ef_user
 CREATE USER ef_analytics WITH PASSWORD 'analytics'; -- укажите свой пароль для ef_analytics
 
+-- DROP TABLESPACE IF EXISTS ef_commonspace;
+-- DROP TABLESPACE IF EXISTS ef_orderspace;
+-- DROP TABLESPACE IF EXISTS ef_indexspace;
 CREATE TABLESPACE ef_commonspace OWNER ef_admin LOCATION '/data/ef/common'; -- табличное пространство по-умолчанию
 CREATE TABLESPACE ef_orderspace OWNER ef_admin LOCATION '/data/ef/orders'; -- табличное пространство для таблицы с заказами
 CREATE TABLESPACE ef_indexspace OWNER ef_admin LOCATION '/data/ef/indexes'; -- табличное пространство для индексов
@@ -33,15 +38,25 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON ALL TABLES IN SCHEMA ef to ef_user; -- �
 
 -- Создаем таблицы
 
+CREATE TABLE IF NOT EXISTS ef.city (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+)   TABLESPACE ef_commonspace;
+
 CREATE TABLE IF NOT EXISTS ef.address (
     id BIGSERIAL PRIMARY KEY,
-    city VARCHAR(100) NOT NULL,
     street VARCHAR(100) NOT NULL,
     building VARCHAR(20) NOT NULL,
     entrance VARCHAR(20) NULL,
     floor VARCHAR(20) NULL,
     flat VARCHAR(20) NULL,
-    comment VARCHAR(500) NULL
+    comment VARCHAR(500) NULL,
+    cityid BIGINT NOT NULL,
+    CONSTRAINT fk_address_city
+		FOREIGN KEY(cityid)
+			REFERENCES ef.city(id)
+			ON DELETE RESTRICT
+			ON UPDATE RESTRICT
 )   TABLESPACE ef_commonspace;
 
 CREATE TABLE IF NOT EXISTS ef.customer (
@@ -188,6 +203,10 @@ CREATE TABLE IF NOT EXISTS ef.appliedpromocode (
 )   TABLESPACE ef_orderspace;
 
 -- Создаем индексы
+
+CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS uq_city_name
+	ON ef.city(name)
+	TABLESPACE ef_indexspace;
 
 CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS uq_customer_phone
 	ON ef.customer(phone)
