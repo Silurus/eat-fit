@@ -15,15 +15,15 @@
 -- DROP DATABASE IF EXISTS eatfit;
 CREATE DATABASE eatfit ENCODING = 'UTF8';
 
+-- DROP TABLESPACE IF EXISTS ef_commonspace;
+-- DROP TABLESPACE IF EXISTS ef_orderspace;
+-- DROP TABLESPACE IF EXISTS ef_indexspace;
 -- DROP ROLE IF EXISTS ef_analytics, ef_user, ef_admin, ef_gr;
 CREATE ROLE ef_gr; -- группа ролей, относящихся к БД EatFit
 CREATE USER ef_admin WITH PASSWORD 'admin'; -- укажите свой пароль для ef_admin
 CREATE USER ef_user WITH PASSWORD 'user'; -- укажите свой пароль для ef_user
 CREATE USER ef_analytics WITH PASSWORD 'analytics'; -- укажите свой пароль для ef_analytics
 
--- DROP TABLESPACE IF EXISTS ef_commonspace;
--- DROP TABLESPACE IF EXISTS ef_orderspace;
--- DROP TABLESPACE IF EXISTS ef_indexspace;
 CREATE TABLESPACE ef_commonspace OWNER ef_admin LOCATION '/data/ef/common'; -- табличное пространство по-умолчанию
 CREATE TABLESPACE ef_orderspace OWNER ef_admin LOCATION '/data/ef/orders'; -- табличное пространство для таблицы с заказами
 CREATE TABLESPACE ef_indexspace OWNER ef_admin LOCATION '/data/ef/indexes'; -- табличное пространство для индексов
