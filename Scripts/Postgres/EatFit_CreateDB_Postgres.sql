@@ -9,7 +9,7 @@
 
 -- SELECT pg_terminate_backend(pg_stat_activity.pid)
 -- FROM pg_stat_activity
--- WHERE pg_stat_activity.datname = 'eatfit' -- ← change this to your DB
+-- WHERE pg_stat_activity.datname = 'eatfit'
 --   AND pid <> pg_backend_pid();
 
 -- DROP DATABASE IF EXISTS eatfit;
@@ -44,20 +44,20 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON ALL TABLES IN SCHEMA ef to ef_user; -- �
 -- Создаем таблицы
 
 CREATE TABLE IF NOT EXISTS ef.city (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+	id BIGSERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL
 )   TABLESPACE ef_commonspace;
 
 CREATE TABLE IF NOT EXISTS ef.address (
-    id BIGSERIAL PRIMARY KEY,
-    street VARCHAR(100) NOT NULL,
-    building VARCHAR(20) NOT NULL,
-    entrance VARCHAR(20) NULL,
-    floor VARCHAR(20) NULL,
-    flat VARCHAR(20) NULL,
-    comment VARCHAR(500) NULL,
-    cityid BIGINT NOT NULL,
-    CONSTRAINT fk_address_city
+	id BIGSERIAL PRIMARY KEY,
+	street VARCHAR(100) NOT NULL,
+	building VARCHAR(20) NOT NULL,
+	entrance VARCHAR(20) NULL,
+	floor VARCHAR(20) NULL,
+	flat VARCHAR(20) NULL,
+	comment VARCHAR(500) NULL,
+	cityid BIGINT NOT NULL,
+	CONSTRAINT fk_address_city
 		FOREIGN KEY(cityid)
 			REFERENCES ef.city(id)
 			ON DELETE RESTRICT
@@ -65,11 +65,17 @@ CREATE TABLE IF NOT EXISTS ef.address (
 )   TABLESPACE ef_commonspace;
 
 CREATE TABLE IF NOT EXISTS ef.customer (
-    id BIGSERIAL PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	firstname VARCHAR(100) NOT NULL,
 	lastname VARCHAR(100) NOT NULL,
 	phone VARCHAR(20) NOT NULL,
 	addressid BIGINT NULL,
+	cityid BIGINT NOT NULL,
+	CONSTRAINT fk_customer_city
+		FOREIGN KEY(cityid)
+			REFERENCES ef.city(id)
+			ON DELETE RESTRICT
+			ON UPDATE RESTRICT
 	CONSTRAINT fk_customer_address
 		FOREIGN KEY(addressid)
 			REFERENCES ef.address(id)
@@ -78,7 +84,7 @@ CREATE TABLE IF NOT EXISTS ef.customer (
 )   TABLESPACE ef_commonspace;
 
 CREATE TABLE IF NOT EXISTS ef.order (
-    id BIGSERIAL PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	createdat TIMESTAMP NOT NULL,
 	iscompleted BOOLEAN NOT NULL,
 	iscancelled BOOLEAN NOT NULL,
@@ -101,7 +107,7 @@ CREATE TABLE IF NOT EXISTS ef.order (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.payment (
-    orderid BIGINT PRIMARY KEY,
+	orderid BIGINT PRIMARY KEY,
 	paymentstatus INT NOT NULL,
 	recipe JSONB NULL,
 	date TIMESTAMP NULL,
@@ -113,7 +119,7 @@ CREATE TABLE IF NOT EXISTS ef.payment (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.feedback (
-    orderid BIGINT PRIMARY KEY,
+	orderid BIGINT PRIMARY KEY,
 	orderrating INT NOT NULL,
 	courierrating INT NOT NULL,
 	text VARCHAR(300) NULL,
@@ -125,15 +131,21 @@ CREATE TABLE IF NOT EXISTS ef.feedback (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.courier (
-    id BIGSERIAL PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	firstname VARCHAR(100) NOT NULL,
 	lastname VARCHAR(100) NOT NULL,
 	phone VARCHAR(20) NOT NULL,
-	ratingavg REAL NOT NULL
+	ratingavg REAL NOT NULL,
+	cityid BIGINT NOT NULL,
+	CONSTRAINT fk_courier_city
+		FOREIGN KEY(cityid)
+			REFERENCES ef.city(id)
+			ON DELETE RESTRICT
+			ON UPDATE RESTRICT
 )   TABLESPACE ef_commonspace;
 
 CREATE TABLE IF NOT EXISTS ef.orderqueue (
-    orderid BIGINT PRIMARY KEY,
+	orderid BIGINT PRIMARY KEY,
 	estimatedtime TIMESTAMP NOT NULL,
 	orderstatus INT NOT NULL,
 	courierid BIGINT NULL,
@@ -150,7 +162,7 @@ CREATE TABLE IF NOT EXISTS ef.orderqueue (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.meal (
-    id BIGINT PRIMARY KEY,
+	id BIGINT PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	price MONEY NOT NULL,
 	description VARCHAR(3000) NULL,
@@ -164,7 +176,7 @@ CREATE TABLE IF NOT EXISTS ef.meal (
 
 CREATE TABLE IF NOT EXISTS ef.basket (
 	orderid BIGINT NOT NULL,
-    mealid BIGINT NOT NULL,
+	mealid BIGINT NOT NULL,
 	quantity INT NOT NULL,
 	positionprice MONEY NOT NULL,
 	PRIMARY KEY(orderid, mealid),
@@ -181,7 +193,7 @@ CREATE TABLE IF NOT EXISTS ef.basket (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.promocode (
-    id BIGINT PRIMARY KEY,
+	id BIGINT PRIMARY KEY,
 	code VARCHAR(50) NOT NULL,
 	discount DECIMAL NOT NULL,
 	isactive BOOLEAN NOT NULL,
@@ -193,7 +205,7 @@ CREATE TABLE IF NOT EXISTS ef.promocode (
 
 CREATE TABLE IF NOT EXISTS ef.appliedpromocode (
 	orderid BIGINT NOT NULL,
-    promocodeid BIGINT NOT NULL,
+	promocodeid BIGINT NOT NULL,
 	PRIMARY KEY(orderid, promocodeid),
 	CONSTRAINT fk_appliedpromocode_order
 		FOREIGN KEY(orderid)
