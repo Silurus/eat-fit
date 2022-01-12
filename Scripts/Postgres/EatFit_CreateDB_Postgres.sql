@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS ef.customer (
 		FOREIGN KEY(cityid)
 			REFERENCES ef.city(id)
 			ON DELETE RESTRICT
-			ON UPDATE RESTRICT
+			ON UPDATE RESTRICT,
 	CONSTRAINT fk_customer_address
 		FOREIGN KEY(addressid)
 			REFERENCES ef.address(id)
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS ef.orderqueue (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.meal (
-	id BIGINT PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	price MONEY NOT NULL,
 	description VARCHAR(3000) NULL,
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS ef.basket (
 )   TABLESPACE ef_orderspace;
 
 CREATE TABLE IF NOT EXISTS ef.promocode (
-	id BIGINT PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	code VARCHAR(50) NOT NULL,
 	discount DECIMAL NOT NULL,
 	isactive BOOLEAN NOT NULL,
