@@ -131,4 +131,4 @@ COPY courier_temp FROM '/data/courier.copy' WITH DELIMITER ',';
 -- WHERE pg_stat_activity.datname = 'eatfit_temp'
 --   AND pid <> pg_backend_pid();
 
--- DROP eatfit_temp;
+-- DROP DATABASE eatfit_temp;
