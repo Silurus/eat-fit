@@ -126,4 +126,9 @@ COPY courier_temp FROM '/data/courier.copy' WITH DELIMITER ',';
 
 -- SELECT * FROM courier_temp;
 
+-- SELECT pg_terminate_backend(pg_stat_activity.pid)
+-- FROM pg_stat_activity
+-- WHERE pg_stat_activity.datname = 'eatfit_temp'
+--   AND pid <> pg_backend_pid();
+
 -- DROP eatfit_temp;
