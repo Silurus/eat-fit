@@ -22,7 +22,7 @@
 По каждому выполненному заказу клиенту предлагается оценить заказ и работу курьера.
 На основе этих данных курьерам выставляется средний рейтинг и дорабатывается рецептура блюд.
 
-![image](https://user-images.githubusercontent.com/19695435/149020809-9e83e251-7c78-4c55-b244-c5988034b844.png)
+![image](https://user-images.githubusercontent.com/19695435/149655747-6915ac21-1329-4c73-bc95-326989b08662.png)
 
 
 ### Описание таблиц
@@ -52,12 +52,6 @@
 
 ### Автоматические проверки (Check Constraints)
 
-- **CK_Order_TotalDiscount_Between_0_And_1** - проверка для таблицы Order,  
-поле TotalDiscount должно принадлежать диапазону \[0; 1\] (процент скидки)
-- **CK_Order_TotalPrice_NonNegative** - проверка для таблицы Order,  
-поле TotalPrice должно быть неотрицательным числом (>= 0)
-- **CK_Basket_PositionPrice_NonNegative** - проверка для таблицы Basket,  
-поле PositionPrice должно быть неотрицательным числом (>= 0)
 - **CK_Basket_Quantity_NonNegative** - проверка для таблицы Basket,  
 поле Quantity должно быть неотрицательным числом (>= 0)
 - **CK_Feedback_CourierRating_NonNegative** - проверка для таблицы Feedback,  
@@ -70,12 +64,18 @@
 поле Carbs должно быть неотрицательным числом (>= 0)
 - **CK_Meal_Fats_NonNegative** - проверка для таблицы Meal,  
 поле Fats должно быть неотрицательным числом (>= 0)
-- **CK_Meal_Price_NonNegative** - проверка для таблицы Meal,  
-поле Price должно быть неотрицательным числом (>= 0)
 - **CK_Meal_Protein_NonNegative** - проверка для таблицы Meal,  
 поле Protein должно быть неотрицательным числом (>= 0)
-- **CK_Promocode_Discount_Between_0_And_1** - проверка для таблицы Promocode,  
-поле Discount должно принадлежать диапазону \[0; 1\] (процент скидки)
+
+Для полей **Order.TotalDiscount** и **Promocode.Discount** был создан домен **percent**, который имеет тип **DECIMAL** и применяет следующие ограничения:
+- не может быть **NULL**
+- значение по-умолчанию: **0**
+- значение должно быть в интервале **[0; 1]**
+
+Для полей **Order.TotalPrice**, **Meal.Price**, **Basket.PositionPrice** был создан домен **price**, который имеет тип **DECIMAL** и применяет следующие ограничения:
+- не может быть **NULL**
+- значение по-умолчанию: **0**
+- значение должно быть **>= 0**
 
 ## Установка СУБД
 
