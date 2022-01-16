@@ -56,13 +56,13 @@ INSERT INTO ef.customer(firstname, lastname, phone, addressid, cityid) VALUES
 
 -- TRUNCATE ef.order RESTART IDENTITY CASCADE;
 INSERT INTO ef.order(customerid, addressid, createdat, iscompleted, iscancelled, totalprice, totaldiscount) VALUES
-	(12, 13, TIMESTAMP '2021-12-28 14:53', FALSE, TRUE, 380, NULL),
-	(4, 1, TIMESTAMP '2021-12-29 12:01', FALSE, TRUE, 640, NULL),
-	(9, 10, TIMESTAMP '2021-12-30 21:45', FALSE, TRUE, 400, NULL),
-	(1, 2, TIMESTAMP '2021-12-31 09:22', FALSE, TRUE, 650, NULL),
+	(12, 13, TIMESTAMP '2021-12-28 14:53', FALSE, TRUE, 380, default),
+	(4, 1, TIMESTAMP '2021-12-29 12:01', FALSE, TRUE, 640, default),
+	(9, 10, TIMESTAMP '2021-12-30 21:45', FALSE, TRUE, 400, default),
+	(1, 2, TIMESTAMP '2021-12-31 09:22', FALSE, TRUE, 650, default),
 	(1, 2, TIMESTAMP '2022-01-03 08:41', FALSE, TRUE, 810, 0.1),
-	(1, 3, TIMESTAMP '2022-01-05 14:00', FALSE, TRUE, 650, NULL),
-	(7, 7, TIMESTAMP '2022-01-05 15:25', FALSE, TRUE, 400, NULL),
+	(1, 3, TIMESTAMP '2022-01-05 14:00', FALSE, TRUE, 650, default),
+	(7, 7, TIMESTAMP '2022-01-05 15:25', FALSE, TRUE, 400, default),
 	(7, 4, TIMESTAMP '2022-01-05 15:37', FALSE, TRUE, 570, 0.05);
 
 --  Значения paymentstatus: -1 (ошибка), 0 (не оплачен), 1 (оплачен), 2 (обрабатывается), 3 (произведен возврат)

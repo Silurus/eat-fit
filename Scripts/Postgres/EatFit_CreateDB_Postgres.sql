@@ -83,6 +83,18 @@ CREATE TABLE IF NOT EXISTS ef.customer (
 			ON UPDATE RESTRICT
 )   TABLESPACE ef_commonspace;
 
+-- Создадим домен под тип "процент"
+CREATE DOMAIN percent AS NUMERIC
+	DEFAULT 0
+	NOT NULL
+	CHECK (VALUE >= 0 AND VALUE <= 1);
+
+-- Создадим домен под тип "цена"
+CREATE DOMAIN price AS NUMERIC
+	DEFAULT 0
+	NOT NULL
+	CHECK (VALUE >= 0);
+
 CREATE TABLE IF NOT EXISTS ef.order (
 	id BIGSERIAL PRIMARY KEY,
 	createdat TIMESTAMP NOT NULL,
@@ -92,8 +104,8 @@ CREATE TABLE IF NOT EXISTS ef.order (
 	addressid BIGINT NOT NULL,
 	desiredtime TIMESTAMP NULL,
 	comment VARCHAR(3000) NULL,
-	totalprice MONEY NULL,
-	totaldiscount DECIMAL NULL,
+	totalprice price,
+	totaldiscount percent,
 	CONSTRAINT fk_order_customer
 		FOREIGN KEY(customerid)
 			REFERENCES ef.customer(id)
@@ -164,7 +176,7 @@ CREATE TABLE IF NOT EXISTS ef.orderqueue (
 CREATE TABLE IF NOT EXISTS ef.meal (
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
-	price MONEY NOT NULL,
+	price price,
 	description VARCHAR(3000) NULL,
 	ingredients VARCHAR(3000) NULL,
 	volume VARCHAR(50) NULL,
@@ -178,7 +190,7 @@ CREATE TABLE IF NOT EXISTS ef.basket (
 	orderid BIGINT NOT NULL,
 	mealid BIGINT NOT NULL,
 	quantity INT NOT NULL,
-	positionprice MONEY NOT NULL,
+	positionprice price,
 	PRIMARY KEY(orderid, mealid),
 	CONSTRAINT fk_basket_order
 		FOREIGN KEY(orderid)
@@ -195,7 +207,7 @@ CREATE TABLE IF NOT EXISTS ef.basket (
 CREATE TABLE IF NOT EXISTS ef.promocode (
 	id BIGSERIAL PRIMARY KEY,
 	code VARCHAR(50) NOT NULL,
-	discount DECIMAL NOT NULL,
+	discount percent,
 	isactive BOOLEAN NOT NULL,
 	rules JSONB NULL,
 	validfrom timestamp NULL,
@@ -247,25 +259,6 @@ CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_promocode_code
 
 -- Создаем автоматические проверки (check constraints)
 
-ALTER TABLE ef.order
-	ADD CONSTRAINT ck_order_totaldiscount_between_0_and_1
-	CHECK (
-			totaldiscount >= 0
-			AND totaldiscount <= 1
-	);
-
-ALTER TABLE ef.order
-	ADD CONSTRAINT ck_order_totalprice_nonnegative
-	CHECK (
-			totalprice >= 0::MONEY
-	);
-
-ALTER TABLE ef.basket
-	ADD CONSTRAINT ck_basket_positionprice_nonnegative
-	CHECK (
-			positionprice >= 0::MONEY
-	);
-
 ALTER TABLE ef.basket
 	ADD CONSTRAINT ck_basket_quantity_nonnegative
 	CHECK (
@@ -306,17 +299,4 @@ ALTER TABLE ef.meal
 	ADD CONSTRAINT ck_meal_protein_nonnegative
 	CHECK (
 			protein >= 0
-	);
-
-ALTER TABLE ef.meal
-	ADD CONSTRAINT ck_meal_price_nonnegative
-	CHECK (
-			price >= 0::MONEY
-	);
-
-ALTER TABLE ef.promocode
-	ADD CONSTRAINT ck_promocode_discount_between_0_and_1
-	CHECK (
-			discount >= 0
-			AND discount <= 1
 	);

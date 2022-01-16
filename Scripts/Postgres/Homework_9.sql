@@ -2,7 +2,7 @@
 
 -- Данный запрос выводит список заказчиков, у которых фамилия не оканчивается на 'ов' или 'ова'
 SELECT * FROM ef.customer
-WHERE lastname NOT SIMILAR TO '%ова?';
+WHERE lastname ~ '.+ова?$';
 
 
 -- 2. Напишите запрос по своей базе с использованием LEFT JOIN и INNER JOIN, как порядок соединений в FROM влияет на результат? Почему?
@@ -70,13 +70,15 @@ SET customer = cus.firstname || ' ' || cus.lastname
 
 -- 5. Напишите запрос для удаления данных с оператором DELETE используя join с другой таблицей с помощью using.
 
+-- SELECT id, customer, courierrating FROM order_temp JOIN ef.feedback ON order_temp.id = ef.feedback.orderid;
+
 -- Удалим из временной таблицы с заказами все заказы, в которых курьеру выставили рейтинг ниже 5 баллов
 DELETE FROM order_temp
     USING ef.feedback
         WHERE order_temp.id = ef.feedback.orderid AND courierrating < 5
 	RETURNING *;
 
--- SELECT id, customer FROM order_temp;
+-- SELECT id, customer, courierrating FROM order_temp JOIN ef.feedback ON order_temp.id = ef.feedback.orderid;
 
 -- 6. Приведите пример использования утилиты COPY (по желанию)
 
