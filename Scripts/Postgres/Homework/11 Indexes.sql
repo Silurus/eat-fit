@@ -36,12 +36,36 @@ WHERE name = 'г Орёл'
 
 -- 3. Реализовать индекс для полнотекстового поиска
 
+-- 3.1 Функциональный индекс без создания дополнительного поля tsvector
+
+-- Создадим функциональный индекс
+CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_city_name_fulltext_func
+	ON ef.city USING GIN (to_tsvector('russian', name))
+	TABLESPACE ef_indexspace;
+
+-- Теперь найдем в таблице все края
+
+explain SELECT id, name
+FROM ef.city
+WHERE to_tsvector('russian', name) @@ to_tsquery('край');
+
+-- "Bitmap Heap Scan on city  (cost=250.25..375.77 rows=1 width=60)"
+-- "  Recheck Cond: (to_tsvector('russian'::regconfig, (name)::text) @@ to_tsquery('край'::text))"
+-- "  ->  Bitmap Index Scan on ix_city_name_fulltext_func  (cost=0.00..250.25 rows=1 width=0)"
+-- "        Index Cond: (to_tsvector('russian'::regconfig, (name)::text) @@ to_tsquery('край'::text))"
+
+
+-- 3.2 Индекс GIN с использованием отдельного поля типа tsvector
+
 -- Добавим возможность полнотекстового поиска по названию города.
 -- В таблицу ef.city добавим поле name_lexeme и обновим его значениями,
 -- оптимизированными под полнотекстовый поиск по названию города
 ALTER TABLE ef.city ADD COLUMN name_lexeme TSVECTOR;
 UPDATE ef.city
 SET name_lexeme = to_tsvector(ef.city.name);
+
+-- DROP INDEX IF EXISTS ix_city_name_fulltext_func;
+-- analyze ef.city;
 
 -- Создадим индекс
 CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_city_name_fulltext
