@@ -84,11 +84,12 @@ WHERE name_lexeme @@ to_tsquery('обл | край' );
 
 -- 4. Реализовать индекс на часть таблицы или индекс на поле с функцией
 
--- Добавим индекс на полное имя заказчиков (имя и фамилия с большой буквы) в таблице ef.customer
-CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_customer_fullname
-	ON ef.customer (initcap(ef.customer.firstname || ef.customer.lastname));
+-- (индекс на поле с функцией) Добавим индекс на округленное значение среднего рейтинга курьера
+CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_courier_ratingavg_round
+	ON ef.courier (round(ratingavg));
 
--- Добавим индекс на таблицу ef.order для заказов в очереди в статусе 'Готовится' (orderstatus = 1) и для которых еще не назначен курьер
+-- (индекс на часть таблицы) Добавим индекс на таблицу ef.order для заказов в очереди в статусе 'Готовится' (orderstatus = 1)
+-- и для которых еще не назначен курьер
 CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_orderqueue_orderid_ready_to_assign
 	ON ef.orderqueue (orderid)
 	WHERE orderstatus = 1 AND courierid IS NULL;
