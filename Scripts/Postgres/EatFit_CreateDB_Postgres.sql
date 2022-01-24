@@ -237,6 +237,10 @@ CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS uq_city_name
 	ON ef.city(name)
 	TABLESPACE ef_indexspace;
 
+CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_city_name_fulltext
+	ON ef.city USING GIN (to_tsvector('russian', name))
+	TABLESPACE ef_indexspace;
+
 CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS uq_customer_phone
 	ON ef.customer(phone)
 	TABLESPACE ef_indexspace;
@@ -248,11 +252,11 @@ CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS uq_courier_phone
 CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_order_customerid_createdat
 	ON ef.order(customerid, createdat)
 	TABLESPACE ef_indexspace;
-	
-CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_meal_name
-	ON ef.meal(name)
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_meal_name_fulltext
+	ON ef.meal USING GIN (to_tsvector('russian', name))
 	TABLESPACE ef_indexspace;
-	
+
 CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_promocode_code
 	ON ef.promocode(code)
 	TABLESPACE ef_indexspace;
